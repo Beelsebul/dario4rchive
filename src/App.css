@@ -1,0 +1,839 @@
+/* ============================================= */
+/* Global & Base Styles */
+/* ============================================= */
+/* Inherited from index.css or defined here */
+:root {
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  --color-primary: #2563eb; /* blue-600 */
+  --color-primary-hover: #1d4ed8; /* blue-700 */
+  --color-danger: #dc2626; /* red-600 */
+  --color-danger-hover: #b91c1c; /* red-700 */
+  --color-success: #16a34a; /* green-600 */
+  --color-success-hover: #15803d; /* green-700 */
+  --color-text-light: #ffffff;
+  --color-text-dark: #1f2937; /* gray-800 */
+  --color-text-muted: #6b7280; /* gray-500 */
+  --color-text-heading: #111827; /* gray-900 */
+  --color-border: #e5e7eb; /* gray-200 */
+  --color-input-border: #d1d5db; /* gray-300 */
+  --color-background-body: #f3f4f6; /* gray-100 */
+  --color-background-card: #ffffff;
+  --color-background-sidebar: #1f2937; /* gray-800 */
+  --color-background-sidebar-hover: #374151; /* gray-700 */
+  --color-background-sidebar-active: #111827; /* gray-900 */
+  --color-accent: #eef2ff; /* indigo-50 */
+  --color-accent-hover: #e0e7ff; /* indigo-100 */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --radius-sm: 0.25rem; /* 4px */
+  --radius-md: 0.375rem; /* 6px */
+  --radius-lg: 0.5rem; /* 8px */
+  --radius-full: 9999px;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-background-body);
+  color: var(--color-text-dark);
+}
+
+/* ============================================= */
+/* Main App Layout */
+/* ============================================= */
+.app-layout { /* Replaces <div className="flex min-h-screen bg-gray-100 font-sans"> in App.js */
+  display: flex;
+  min-height: 100vh;
+  font-family: var(--font-sans);
+  background-color: var(--color-background-body); /* Already on body, but explicit */
+}
+
+.main-content { /* Replaces <main className="flex-1 overflow-y-auto"> */
+  flex: 1 1 0%;
+  overflow-y: auto;
+  /* Add potential padding if needed, or handle in page-container */
+  /* padding: 1.5rem;  */
+}
+
+/* Optional Header styles if you uncomment it in App.js */
+.app-header {
+  background-color: var(--color-background-card);
+  box-shadow: var(--shadow-sm);
+  padding: 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+
+/* ============================================= */
+/* Sidebar Component */
+/* ============================================= */
+.sidebar { /* <aside className="w-64 bg-gray-800 text-white flex flex-col min-h-screen"> */
+  width: 16rem; /* w-64 */
+  background-color: var(--color-background-sidebar);
+  color: var(--color-text-light);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.sidebar-header { /* <div className="p-4 text-2xl font-bold border-b border-gray-700"> */
+  padding: 1rem;
+  font-size: 1.5rem; /* text-2xl */
+  line-height: 2rem;
+  font-weight: 700; /* font-bold */
+  border-bottom: 1px solid #374151; /* border-gray-700 */
+}
+
+.sidebar-nav { /* <nav className="flex-1 p-2 space-y-1"> */
+  flex: 1 1 0%;
+  padding: 0.5rem; /* p-2 */
+  margin-top: 0.25rem; /* Approximates space-y-1 */
+}
+.sidebar-nav > *:not(:last-child) { /* Approximates space-y-1 */
+  margin-bottom: 0.25rem;
+}
+
+
+.sidebar-button { /* Common styles for nav items and footer buttons */
+  /* <button className="w-full flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors ..."> */
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0.75rem; /* py-2 px-3 */
+  border-radius: var(--radius-md);
+  font-size: 0.875rem; /* text-sm */
+  line-height: 1.25rem;
+  font-weight: 500; /* font-medium */
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+  border: none; /* Reset button default border */
+  background: none; /* Reset button default background */
+  cursor: pointer;
+  text-align: left;
+  color: #d1d5db; /* text-gray-300 */
+}
+
+.sidebar-button:hover { /* hover:bg-gray-700 hover:text-white */
+  background-color: var(--color-background-sidebar-hover);
+  color: var(--color-text-light);
+}
+
+.sidebar-button.active { /* currentPage === item.id ? 'bg-gray-900 text-white' : ... */
+  background-color: var(--color-background-sidebar-active);
+  color: var(--color-text-light);
+}
+
+.sidebar-button-icon { /* <item.icon className="mr-3 h-5 w-5" /> */
+  margin-right: 0.75rem; /* mr-3 */
+  height: 1.25rem; /* h-5 */
+  width: 1.25rem; /* w-5 */
+  flex-shrink: 0; /* Prevent icon shrinking */
+}
+
+.sidebar-footer { /* <div className="p-2 border-t border-gray-700"> */
+  padding: 0.5rem;
+  border-top: 1px solid #374151; /* border-gray-700 */
+  margin-top: auto; /* Pushes footer to bottom */
+}
+/* Footer buttons inherit .sidebar-button styles */
+
+
+/* ============================================= */
+/* Page Containers & Headers */
+/* ============================================= */
+.page-container { /* <div className="p-6 space-y-6"> */
+  padding: 1.5rem; /* p-6 */
+}
+.page-container > *:not(:last-child) { /* space-y-6 */
+  margin-bottom: 1.5rem;
+}
+
+.page-header { /* <div className="flex justify-between items-center"> */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem; /* Add consistent bottom margin */
+}
+
+.page-title { /* <h1 className="text-3xl font-bold"> */
+  font-size: 1.875rem; /* text-3xl */
+  line-height: 2.25rem;
+  font-weight: 700; /* font-bold */
+  color: var(--color-text-heading);
+  margin: 0; /* Reset default heading margin */
+}
+
+/* ============================================= */
+/* Card Component Styles */
+/* ============================================= */
+.card { /* <div className="rounded-lg border bg-white text-gray-900 shadow-sm"> */
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-background-card);
+  color: var(--color-text-heading); /* text-gray-900 */
+  box-shadow: var(--shadow-sm);
+  overflow: hidden; /* Prevent content overflow */
+}
+
+.card-header { /* <div className="flex flex-col space-y-1.5 p-4"> or p-6 */
+  display: flex;
+  flex-direction: column;
+  padding: 1rem; /* Default p-4, override if needed */
+  border-bottom: 1px solid var(--color-border); /* Often useful */
+}
+.card-header > *:not(:last-child) { /* space-y-1.5 */
+  margin-bottom: 0.375rem; /* Roughly 1.5 */
+}
+
+.card-title { /* <Tag className="text-lg font-semibold leading-none tracking-tight"> or text-sm font-medium etc. */
+  font-weight: 600; /* font-semibold */
+  line-height: 1; /* leading-none */
+  letter-spacing: -0.01em; /* tracking-tight approximation */
+  margin: 0;
+  color: var(--color-text-heading);
+  /* Default size - adjust per component */
+  font-size: 1.125rem; /* text-lg */
+}
+.card-title.text-sm { /* Specific override from Dashboard */
+   font-size: 0.875rem; /* text-sm */
+   line-height: 1.25rem;
+   font-weight: 500; /* font-medium */
+   color: var(--color-text-muted); /* gray-600 */
+}
+
+
+.card-description { /* <p className="text-sm text-gray-600"> or text-2xl etc. */
+  font-size: 0.875rem; /* text-sm */
+  line-height: 1.25rem;
+  color: var(--color-text-muted); /* text-gray-600 */
+  margin: 0;
+}
+.card-description.text-2xl { /* Specific override from Dashboard */
+  font-size: 1.5rem; /* text-2xl */
+  line-height: 2rem;
+  font-weight: 700; /* font-bold */
+  /* Color set inline via classes like text-green-600 */
+}
+
+.card-content { /* <div className="p-4 pt-0"> or p-6, space-y-4 etc. */
+  padding: 1rem; /* Default p-4 */
+}
+.card-content.pt-0 { /* pt-0 */
+  padding-top: 0;
+}
+.card-content.space-y-4 > *:not(:last-child) { /* space-y-4 */
+  margin-bottom: 1rem;
+}
+
+.card-footer { /* <div className="flex items-center p-4 pt-0"> */
+  display: flex;
+  align-items: center;
+  padding: 1rem; /* Default p-4 */
+  border-top: 1px solid var(--color-border); /* Often useful */
+  background-color: #f9fafb; /* Slightly off-white like bg-gray-50 */
+}
+.card-footer.pt-0 { /* pt-0 */
+  padding-top: 0;
+}
+.card-footer.justify-end { /* <CardFooter className="flex justify-end space-x-2"> */
+  justify-content: flex-end;
+}
+.card-footer.space-x-1 > *:not(:last-child) { margin-right: 0.25rem; }
+.card-footer.space-x-2 > *:not(:last-child) { margin-right: 0.5rem; }
+
+
+/* ============================================= */
+/* Button Component Styles */
+/* ============================================= */
+.button { /* Base styles for <Button> component */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  font-size: 0.875rem; /* text-sm */
+  line-height: 1.25rem;
+  font-weight: 500; /* font-medium */
+  /* ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 */
+  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  cursor: pointer;
+  border: 1px solid transparent;
+  white-space: nowrap; /* Prevent wrapping */
+}
+.button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-background-body), 0 0 0 4px var(--color-primary); /* ring-2 ring-offset-2 ring-blue-500 */
+}
+.button:disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* Variants */
+.button-primary { /* variant="default" -> bg-blue-600 text-white hover:bg-blue-700/90 */
+  background-color: var(--color-primary);
+  color: var(--color-text-light);
+  border-color: var(--color-primary);
+}
+.button-primary:hover:not(:disabled) {
+  background-color: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+}
+
+.button-destructive { /* variant="destructive" -> bg-red-600 text-white hover:bg-red-700/90 */
+  background-color: var(--color-danger);
+  color: var(--color-text-light);
+  border-color: var(--color-danger);
+}
+.button-destructive:hover:not(:disabled) {
+  background-color: var(--color-danger-hover);
+  border-color: var(--color-danger-hover);
+}
+.button-destructive:focus-visible { /* Adjust ring color for destructive */
+  box-shadow: 0 0 0 2px var(--color-background-body), 0 0 0 4px var(--color-danger);
+}
+
+.button-outline { /* variant="outline" -> border border-input bg-background hover:bg-accent hover:text-accent-foreground */
+  border-color: var(--color-input-border);
+  background-color: var(--color-background-card);
+  color: var(--color-text-dark);
+}
+.button-outline:hover:not(:disabled) {
+  background-color: var(--color-accent);
+  /* color: var(--color-text-heading); text-accent-foreground */
+}
+
+.button-secondary { /* variant="secondary" -> bg-gray-200 text-gray-900 hover:bg-gray-300/80 */
+  background-color: #e5e7eb; /* gray-200 */
+  color: #111827; /* gray-900 */
+  border-color: #e5e7eb;
+}
+.button-secondary:hover:not(:disabled) {
+  background-color: #d1d5db; /* gray-300 */
+  border-color: #d1d5db;
+}
+
+.button-ghost { /* variant="ghost" -> hover:bg-accent hover:text-accent-foreground */
+  background-color: transparent;
+  border-color: transparent;
+  color: var(--color-primary); /* Default to primary text color for ghosts */
+}
+.button-ghost:hover:not(:disabled) {
+  background-color: var(--color-accent);
+  /* color: var(--color-text-heading); */
+}
+/* Specific danger ghost for delete icons */
+.button-ghost.button-danger {
+  color: var(--color-danger);
+}
+.button-ghost.button-danger:hover:not(:disabled) {
+  background-color: #fee2e2; /* red-100 */
+  color: var(--color-danger-hover);
+}
+
+
+.button-link { /* variant="link" -> text-primary underline-offset-4 hover:underline */
+  background-color: transparent;
+  border-color: transparent;
+  color: var(--color-primary);
+  text-underline-offset: 4px;
+}
+.button-link:hover:not(:disabled) {
+  text-decoration: underline;
+}
+
+/* Sizes */
+.button-size-default { /* size="default" -> h-10 px-4 py-2 */
+  height: 2.5rem; /* h-10 */
+  padding-left: 1rem; /* px-4 */
+  padding-right: 1rem;
+  /* Padding top/bottom adjusted automatically by flex align-items */
+}
+.button-size-sm { /* size="sm" -> h-9 rounded-md px-3 */
+  height: 2.25rem; /* h-9 */
+  padding-left: 0.75rem; /* px-3 */
+  padding-right: 0.75rem;
+  border-radius: var(--radius-md);
+}
+.button-size-lg { /* size="lg" -> h-11 rounded-md px-8 */
+  height: 2.75rem; /* h-11 */
+  padding-left: 2rem; /* px-8 */
+  padding-right: 2rem;
+  border-radius: var(--radius-md);
+}
+.button-icon { /* size="icon" -> h-10 w-10 */
+  height: 2.5rem; /* h-10 */
+  width: 2.5rem; /* w-10 */
+  padding: 0.5rem; /* Adjust padding for icon buttons */
+}
+
+/* Button with Icon */
+.button-icon-left { /* <PlusCircle className="mr-2 h-4 w-4" /> */
+  margin-right: 0.5rem; /* mr-2 */
+  height: 1rem; /* h-4 */
+  width: 1rem; /* w-4 */
+}
+
+
+/* ============================================= */
+/* Form Elements (Input, Select, Label) */
+/* ============================================= */
+.label { /* <Label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"> */
+  font-size: 0.875rem; /* text-sm */
+  line-height: 1; /* leading-none */
+  font-weight: 500; /* font-medium */
+  color: var(--color-text-dark);
+  display: block; /* Ensure it takes block space */
+  margin-bottom: 0.25rem; /* Add space below label */
+}
+/* :peer-disabled styles are complex to replicate without actual peers, handle via direct input disabled styles */
+
+.input-field,
+.select-field { /* Base styles for Input and Select */
+  /* flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ... */
+  display: flex; /* Use flex for alignment if needed, block works too */
+  width: 100%;
+  height: 2.5rem; /* h-10 */
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-input-border);
+  background-color: var(--color-background-card); /* bg-white */
+  padding: 0.5rem 0.75rem; /* py-2 px-3 */
+  font-size: 0.875rem; /* text-sm */
+  line-height: 1.25rem; /* Match text-sm */
+  color: var(--color-text-dark);
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+.input-field::placeholder { /* placeholder:text-gray-500 */
+  color: var(--color-text-muted);
+}
+.input-field:focus-visible,
+.select-field:focus-visible { /* focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 */
+  outline: none;
+  border-color: var(--color-primary); /* Indicate focus */
+  box-shadow: 0 0 0 2px var(--color-background-body), 0 0 0 4px var(--color-primary); /* ring-2 ring-offset-2 ring-blue-500 */
+}
+.input-field:disabled,
+.select-field:disabled { /* disabled:cursor-not-allowed disabled:opacity-50 */
+  cursor: not-allowed;
+  opacity: 0.5;
+  background-color: #f3f4f6; /* bg-gray-100 for disabled */
+}
+
+/* Select specific styles */
+.select-field {
+  appearance: none; /* Remove default arrow */
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e"); /* Add custom arrow */
+  background-position: right 0.5rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  padding-right: 2.5rem; /* Make space for arrow */
+}
+
+/* Filter Bar styles */
+.filter-bar { /* <div className="flex flex-wrap gap-4 items-end"> */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem; /* gap-4 */
+  align-items: flex-end; /* items-end */
+  background-color: var(--color-background-card);
+  padding: 1rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+}
+.filter-item { /* <div className="flex-1 min-w-[150px]"> */
+  flex: 1 1 0%;
+  min-width: 150px;
+}
+.filter-item > .label { /* Adjust label margin if needed */
+  margin-bottom: 0.125rem;
+}
+
+/* Form layout inside modal */
+.form-grid { /* <div className="grid grid-cols-2 gap-4"> */
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem; /* Space below grid */
+}
+.form-group { /* Wrapper for label + input */
+  margin-bottom: 1rem;
+}
+.form-group:last-child {
+  margin-bottom: 0;
+}
+.form-help-text { /* <p className="text-xs text-gray-500 mt-1"> */
+  font-size: 0.75rem; /* text-xs */
+  color: var(--color-text-muted);
+  margin-top: 0.25rem; /* mt-1 */
+}
+
+
+/* ============================================= */
+/* Table Component Styles */
+/* ============================================= */
+.table-container { /* <div className="relative w-full overflow-auto"> */
+  position: relative;
+  width: 100%;
+  overflow-x: auto; /* Ensure horizontal scroll on small screens */
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg); /* Apply radius to container */
+}
+
+.table { /* <table className="w-full caption-bottom text-sm"> */
+  width: 100%;
+  caption-side: bottom;
+  font-size: 0.875rem; /* text-sm */
+  line-height: 1.25rem;
+  border-collapse: collapse; /* Use collapse for cleaner lines */
+}
+
+.table thead { /* <thead className="[&_tr]:border-b"> */
+  /* Border applied to rows inside */
+  background-color: #f9fafb; /* bg-gray-50 */
+}
+
+.table tbody { /* <tbody className="[&_tr:last-child]:border-0"> */
+  /* Border applied to rows inside, last child has no bottom border */
+  background-color: var(--color-background-card);
+}
+
+.table tr { /* <tr className="border-b transition-colors hover:bg-gray-100/50 ..."> */
+  border-bottom: 1px solid var(--color-border);
+  transition: background-color 0.15s ease-in-out;
+}
+.table tbody tr:hover { /* hover:bg-gray-100/50 */
+  background-color: #f9fafb; /* bg-gray-50 */
+}
+.table tbody tr:last-child {
+  border-bottom: 0;
+}
+/* data-[state=selected]:bg-gray-100 -> Requires JS state, apply class manually if needed */
+.table tr.selected {
+   background-color: #f3f4f6; /* bg-gray-100 */
+}
+
+.table th { /* <th className="h-12 px-4 text-left align-middle font-medium text-gray-600 ..."> */
+  height: 3rem; /* h-12 */
+  padding: 0.75rem 1rem; /* Adjusted padding, px-4 */
+  text-align: left;
+  vertical-align: middle;
+  font-weight: 500; /* font-medium */
+  color: #4b5563; /* text-gray-600 */
+  /* [&:has([role=checkbox])]:pr-0 - complex selector, handle manually if checkbox is used */
+}
+
+.table td { /* <td className="p-4 align-middle ..."> */
+  padding: 1rem; /* p-4 */
+  vertical-align: middle;
+  /* [&:has([role=checkbox])]:pr-0 - complex selector */
+}
+
+/* Modifiers for table cells/heads */
+.table .text-right { text-align: right; }
+.table .font-medium { font-weight: 500; }
+.table .text-green { color: var(--color-success); }
+.table .text-red { color: var(--color-danger); }
+
+/* Table Empty State */
+.table-empty-state { /* <TableCell colSpan={X} className="text-center text-gray-500 py-4"> */
+  text-align: center;
+  color: var(--color-text-muted);
+  padding-top: 1.5rem; /* py-4 approx */
+  padding-bottom: 1.5rem;
+  font-style: italic;
+}
+
+/* Table Action Buttons container */
+.action-buttons { /* <div className="flex space-x-1"> */
+  display: flex;
+  align-items: center;
+  gap: 0.25rem; /* space-x-1 */
+}
+.action-buttons .button-icon { /* Make action icons smaller */
+  height: 2rem;
+  width: 2rem;
+  padding: 0.4rem;
+}
+.action-buttons .icon-sm { /* Icon size within buttons */
+   height: 1rem; /* h-4 */
+   width: 1rem; /* w-4 */
+}
+
+/* Table Status Badges */
+.status-badge { /* <span className="px-2 py-1 rounded-full text-xs font-medium ..."> */
+  padding: 0.25rem 0.5rem; /* py-1 px-2 */
+  border-radius: var(--radius-full);
+  font-size: 0.75rem; /* text-xs */
+  line-height: 1rem;
+  font-weight: 500; /* font-medium */
+  display: inline-block; /* Ensure padding applies correctly */
+}
+.status-badge-green { /* bg-green-100 text-green-800 */
+  background-color: #d1fae5;
+  color: #065f46;
+}
+.status-badge-red { /* bg-red-100 text-red-800 */
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+/* Category Table Specific */
+.color-cell { /* <div className="flex items-center"> */
+  display: flex;
+  align-items: center;
+}
+.color-swatch { /* <span className="w-4 h-4 rounded-full mr-2 border" style={{ backgroundColor: cat.color }}> */
+  width: 1rem; /* w-4 */
+  height: 1rem; /* h-4 */
+  border-radius: var(--radius-full);
+  margin-right: 0.5rem; /* mr-2 */
+  border: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+.default-tag { /* <span className="text-xs text-gray-400 italic"> */
+  font-size: 0.75rem; /* text-xs */
+  color: #9ca3af; /* text-gray-400 */
+  font-style: italic;
+}
+.table-section-header-row { /* Custom class for the separator row */
+  background-color: #f9fafb; /* bg-gray-50 */
+}
+.table-section-header { /* <TableCell colSpan={4} className="pt-6 pb-2 text-sm font-semibold text-gray-500 bg-gray-50"> */
+  padding-top: 1rem; /* Adjust padding */
+  padding-bottom: 0.5rem; /* pb-2 */
+  font-size: 0.875rem; /* text-sm */
+  font-weight: 600; /* font-semibold */
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid var(--color-border); /* Ensure border */
+}
+.table-row-default { /* <TableRow className="bg-gray-50"> */
+   background-color: #f9fafb; /* bg-gray-50 */
+   color: #4b5563; /* Slightly muted text */
+}
+.table-row-default:hover {
+   background-color: #f3f4f6; /* Slightly darker hover */
+}
+
+
+/* ============================================= */
+/* Modal Styles */
+/* ============================================= */
+.modal-overlay { /* <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4"> */
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* bg-black bg-opacity-50 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 50; /* z-50 */
+  padding: 1rem; /* p-4 */
+  overflow-y: auto; /* Allow scroll if modal is tall */
+}
+
+.modal-content { /* <Card className="w-full max-w-md bg-white"> */
+  width: 100%;
+  max-width: 32rem; /* max-w-md */ /* Adjust as needed, e.g., 36rem for max-w-lg */
+  background-color: var(--color-background-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  display: flex; /* Use flex column for structure */
+  flex-direction: column;
+  max-height: 90vh; /* Prevent modal exceeding viewport height */
+}
+
+.modal-content .card-header { /* Style modal header */
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--color-border);
+}
+.modal-content .card-title {
+  font-size: 1.25rem; /* text-xl */
+}
+
+.modal-body { /* <CardContent className="space-y-4"> */
+  padding: 1.5rem; /* p-6 */
+  overflow-y: auto; /* Allow content scroll if needed */
+  flex-grow: 1; /* Allow body to take up space */
+}
+.modal-body > *:not(:last-child) { /* space-y-4 */
+  margin-bottom: 1rem;
+}
+
+
+.modal-footer { /* <CardFooter className="flex justify-end space-x-2"> */
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--color-border);
+  background-color: #f9fafb; /* bg-gray-50 */
+  justify-content: flex-end;
+  flex-shrink: 0; /* Prevent footer shrinking */
+}
+.modal-footer > *:not(:last-child) { /* space-x-2 */
+  margin-right: 0.5rem;
+}
+
+/* ============================================= */
+/* Dashboard Specific Styles */
+/* ============================================= */
+.dashboard-grid { /* <div className="grid grid-cols-1 md:grid-cols-3 gap-4"> */
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 1rem; /* gap-4 */
+}
+@media (min-width: 768px) { /* md: */
+  .dashboard-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr)); /* md:grid-cols-3 */
+  }
+}
+
+.charts-grid { /* <div className="grid grid-cols-1 lg:grid-cols-2 gap-6"> */
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 1.5rem; /* gap-6 */
+}
+@media (min-width: 1024px) { /* lg: */
+  .charts-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr)); /* lg:grid-cols-2 */
+  }
+}
+
+.dashboard-metric .card-title { /* Target specific card title */
+  font-size: 0.875rem; /* text-sm */
+  font-weight: 500; /* font-medium */
+  color: #4b5563; /* text-gray-600 */
+}
+.dashboard-metric .card-description { /* Target specific card description */
+  font-size: 1.5rem; /* text-2xl */
+  font-weight: 700; /* font-bold */
+  margin-top: 0.25rem;
+}
+/* Specific colors applied inline by text-green-600, text-red-600 */
+.text-green-600 { color: #16a34a; }
+.text-red-600 { color: #dc2626; }
+.text-blue-600 { color: #2563eb; }
+.text-orange-600 { color: #ea580c; }
+
+
+/* Fixed height for chart containers */
+.chart-container-wrapper { /* Replaces className="h-72" on CardContent */
+  height: 18rem; /* h-72 */
+  padding: 1rem; /* Ensure padding */
+}
+.chart-container-wrapper .recharts-responsive-container {
+  /* Ensure recharts container fills the wrapper */
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Progress Bar Styles */
+.progress-bar-container { /* Wrapper div */
+  margin-bottom: 1rem;
+}
+.progress-bar-label { /* <div className="flex justify-between mb-1 text-sm font-medium"> */
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.25rem; /* mb-1 */
+  font-size: 0.875rem; /* text-sm */
+  line-height: 1.25rem;
+  font-weight: 500; /* font-medium */
+  color: var(--color-text-dark);
+}
+.progress-bar-track { /* <div className="w-full bg-gray-200 rounded-full h-2.5"> */
+  width: 100%;
+  background-color: #e5e7eb; /* bg-gray-200 */
+  border-radius: var(--radius-full);
+  height: 0.625rem; /* h-2.5 */
+  overflow: hidden; /* Ensure inner bar respects radius */
+}
+.progress-bar-fill { /* <div className="bg-blue-600 h-2.5 rounded-full" style={{ width: `${progress}%` }}> */
+  /* Background color set dynamically */
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: width 0.3s ease-in-out;
+}
+.progress-bar-fill.bg-blue-600 { background-color: var(--color-primary); }
+.progress-bar-fill.bg-green-600 { background-color: var(--color-success); }
+
+
+/* ============================================= */
+/* Goals Page Specific Styles */
+/* ============================================= */
+.goals-grid { /* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"> */
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 1.5rem; /* gap-6 */
+}
+@media (min-width: 768px) { /* md: */
+  .goals-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr)); /* md:grid-cols-2 */
+  }
+}
+@media (min-width: 1024px) { /* lg: */
+  .goals-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr)); /* lg:grid-cols-3 */
+  }
+}
+
+.goal-card .card-title { /* Adjust goal card title if needed */
+  font-size: 1.125rem;
+}
+.goal-card .card-description { /* Target goal card description */
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+.goal-card .card-content {
+  padding-bottom: 0.5rem; /* Less bottom padding */
+}
+.goal-card .card-footer { /* Style goal card footer */
+   padding-top: 0.5rem;
+   padding-bottom: 0.5rem;
+   background-color: transparent; /* No different background */
+   border-top: none; /* No top border */
+}
+.goal-card .deadline-text { /* <p className="text-sm text-gray-600"> */
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--color-text-muted);
+  margin-top: 0.5rem;
+}
+.goals-empty-state { /* <div className="col-span-full text-center text-gray-500 py-10"> */
+  grid-column: 1 / -1; /* col-span-full */
+  text-align: center;
+  color: var(--color-text-muted);
+  padding: 2.5rem 0; /* py-10 */
+}
+.goals-empty-state .card { /* <Card className="max-w-md mx-auto"> */
+  max-width: 28rem; /* max-w-md */
+  margin-left: auto;
+  margin-right: auto;
+  border: none; /* Remove border for this inner card */
+  box-shadow: none;
+}
+.goals-empty-state .card-content { /* <CardContent className="p-6"> */
+  padding: 1.5rem;
+}
+.goals-empty-state .button { /* <Button className="mt-4"> */
+  margin-top: 1rem;
+}
+
+
+/* ============================================= */
+/* Utility Classes (Minimal - Prefer semantic) */
+/* ============================================= */
+.font-sans { font-family: var(--font-sans); }
+.font-medium { font-weight: 500; }
+.font-semibold { font-weight: 600; }
+.font-bold { font-weight: 700; }
+.text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+.text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+.text-xl { font-size: 1.25rem; line-height: 1.75rem; }
+.text-2xl { font-size: 1.5rem; line-height: 2rem; }
+.text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+
+/* Add any other very common utilities if absolutely needed */
